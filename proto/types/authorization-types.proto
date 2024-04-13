@@ -3,5 +3,3 @@ syntax = "proto3";
 option go_package="github.com/arandich/marketplace-proto/api/proto/types";
 
 package marketplace;
-
-import "buf/validate/validate.proto";

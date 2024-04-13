@@ -5,7 +5,6 @@ option go_package="github.com/arandich/marketplace-proto/api/proto/services";
 package marketplace;
 
 import "google/api/annotations.proto";
-import "buf/validate/validate.proto";
 
 service IdService {
   // Auth
