@@ -10,7 +10,7 @@ service IdService {
   // Auth
   rpc Auth(AuthRequest) returns (AuthResponse) {
     option (google.api.http) = {
-      post: "/v2/authorization/sign"
+      post: "/v1/id/auth"
       body: "*"
     };
   };

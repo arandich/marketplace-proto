@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             (unknown)
-// source: proto/services/authorization-service.proto
+// source: proto/services/id-service.proto
 
 package services
 
@@ -107,5 +107,5 @@ var IdService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/services/authorization-service.proto",
+	Metadata: "proto/services/id-service.proto",
 }
