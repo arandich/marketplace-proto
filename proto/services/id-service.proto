@@ -5,6 +5,8 @@ option go_package="github.com/arandich/marketplace-proto/api/proto/services";
 package marketplace;
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "proto/enums/id-enums.proto";
 
 service IdService {
   // Auth
@@ -12,6 +14,19 @@ service IdService {
     option (google.api.http) = {
       post: "/v1/id/auth"
       body: "*"
+    };
+  };
+  // IsPaymentAvailable
+  rpc InitHold(InitHoldRequest) returns (InitHoldResponse) {
+    option (google.api.http) = {
+      post: "/v1/id/is-payment-available"
+      body: "*"
+    };
+  };
+  // GetUser
+  rpc GetUser(google.protobuf.Empty) returns (GetUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/id/get-user"
     };
   };
 }
@@ -24,4 +39,17 @@ message AuthRequest {
 message AuthResponse {
   string jwt_token = 1;
   int64 expires_at = 2;
+}
+
+message InitHoldRequest {
+  int64 amount = 1;
+}
+
+message InitHoldResponse {
+  int64 hold_id = 1;
+  HoldStatus status = 2;
+}
+
+message GetUserResponse {
+  string user_id = 1;
 }

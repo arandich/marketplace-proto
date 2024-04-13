@@ -21,7 +21,7 @@ service OrderService {
       post: "/v1/orders/init"
       body: "*"
     };
-  }
+  };
 }
 
 message GetOrderRequest {
@@ -33,7 +33,7 @@ message GetOrderResponse {
 }
 
 message InitOrderRequest {
-  string good_id = 2;
+  repeated int64 good_id = 2;
 }
 
 message InitOrderResponse {

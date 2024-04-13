@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/enums";
+
+package marketplace;
+
+enum HoldStatus {
+  SUCCESS = 0; // подтвержден
+  CANCELLED = 1; // отменен
+  HOLDING = 2; // ожидает подтверждения
+  FAILED = 3; // произошла ошибка
+}

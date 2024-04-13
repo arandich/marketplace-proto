@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,7 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	IdService_Auth_FullMethodName = "/marketplace.IdService/Auth"
+	IdService_Auth_FullMethodName     = "/marketplace.IdService/Auth"
+	IdService_InitHold_FullMethodName = "/marketplace.IdService/InitHold"
+	IdService_GetUser_FullMethodName  = "/marketplace.IdService/GetUser"
 )
 
 // IdServiceClient is the client API for IdService service.
@@ -28,6 +31,10 @@ const (
 type IdServiceClient interface {
 	// Auth
 	Auth(ctx context.Context, in *AuthRequest, opts ...grpc.CallOption) (*AuthResponse, error)
+	// IsPaymentAvailable
+	InitHold(ctx context.Context, in *InitHoldRequest, opts ...grpc.CallOption) (*InitHoldResponse, error)
+	// GetUser
+	GetUser(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetUserResponse, error)
 }
 
 type idServiceClient struct {
@@ -47,12 +54,34 @@ func (c *idServiceClient) Auth(ctx context.Context, in *AuthRequest, opts ...grp
 	return out, nil
 }
 
+func (c *idServiceClient) InitHold(ctx context.Context, in *InitHoldRequest, opts ...grpc.CallOption) (*InitHoldResponse, error) {
+	out := new(InitHoldResponse)
+	err := c.cc.Invoke(ctx, IdService_InitHold_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *idServiceClient) GetUser(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	out := new(GetUserResponse)
+	err := c.cc.Invoke(ctx, IdService_GetUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IdServiceServer is the server API for IdService service.
 // All implementations must embed UnimplementedIdServiceServer
 // for forward compatibility
 type IdServiceServer interface {
 	// Auth
 	Auth(context.Context, *AuthRequest) (*AuthResponse, error)
+	// IsPaymentAvailable
+	InitHold(context.Context, *InitHoldRequest) (*InitHoldResponse, error)
+	// GetUser
+	GetUser(context.Context, *emptypb.Empty) (*GetUserResponse, error)
 	mustEmbedUnimplementedIdServiceServer()
 }
 
@@ -62,6 +91,12 @@ type UnimplementedIdServiceServer struct {
 
 func (UnimplementedIdServiceServer) Auth(context.Context, *AuthRequest) (*AuthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Auth not implemented")
+}
+func (UnimplementedIdServiceServer) InitHold(context.Context, *InitHoldRequest) (*InitHoldResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitHold not implemented")
+}
+func (UnimplementedIdServiceServer) GetUser(context.Context, *emptypb.Empty) (*GetUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedIdServiceServer) mustEmbedUnimplementedIdServiceServer() {}
 
@@ -94,6 +129,42 @@ func _IdService_Auth_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IdService_InitHold_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InitHoldRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IdServiceServer).InitHold(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IdService_InitHold_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IdServiceServer).InitHold(ctx, req.(*InitHoldRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IdService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IdServiceServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IdService_GetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IdServiceServer).GetUser(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IdService_ServiceDesc is the grpc.ServiceDesc for IdService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +175,14 @@ var IdService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Auth",
 			Handler:    _IdService_Auth_Handler,
+		},
+		{
+			MethodName: "InitHold",
+			Handler:    _IdService_InitHold_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _IdService_GetUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
