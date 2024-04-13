@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/services";
+
+package marketplace;
+
+import "google/api/annotations.proto";
+import "buf/validate/validate.proto";
+
+service IdService {
+  // Auth
+  rpc Auth(AuthRequest) returns (AuthResponse) {
+    option (google.api.http) = {
+      post: "/v2/authorization/sign"
+      body: "*"
+    };
+  };
+}
+
+message AuthRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  string jwt_token = 1;
+  int64 expires_at = 2;
+}
