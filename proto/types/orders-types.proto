@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/types";
+
+package marketplace;
+
+message Order {
+  string id = 1;
+  string user_id = 2;
+  string good_id = 3;
+  string status = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}

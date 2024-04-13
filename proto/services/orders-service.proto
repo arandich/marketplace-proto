@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/services";
+
+package marketplace;
+
+import "google/api/annotations.proto";
+import "proto/types/orders-types.proto";
+
+service OrderService {
+  // GetOrder returns an order by id
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {
+    option (google.api.http) = {
+      post: "/v1/orders/get"
+      body: "*"
+    };
+  };
+  // InitOrder
+  rpc InitOrder(InitOrderRequest) returns (InitOrderResponse) {
+    option (google.api.http) = {
+      post: "/v1/orders/init"
+      body: "*"
+    };
+  }
+}
+
+message GetOrderRequest {
+  string id = 1;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+}
+
+message InitOrderRequest {
+  string good_id = 2;
+}
+
+message InitOrderResponse {
+  Order order = 1;
+}
