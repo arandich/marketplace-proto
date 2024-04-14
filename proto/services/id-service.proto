@@ -6,7 +6,7 @@ package marketplace;
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
-import "proto/enums/id-enums.proto";
+import "proto/types/id-types.proto";
 
 service IdService {
   // Auth
@@ -29,6 +29,13 @@ service IdService {
       post: "/v1/id/get-user"
     };
   };
+  // Register user
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/id/register-user"
+      body: "*"
+    };
+  };
 }
 
 message AuthRequest {
@@ -46,10 +53,19 @@ message InitHoldRequest {
 }
 
 message InitHoldResponse {
-  int64 hold_id = 1;
-  HoldStatus status = 2;
+  Hold hold = 1;
 }
 
 message GetUserResponse {
-  string user_id = 1;
+  User user = 1;
+}
+
+message RegisterUserRequest {
+  string username = 1;
+  string password = 2;
+  optional int64 balance = 3;
+}
+
+message RegisterUserResponse {
+  User user = 1;
 }

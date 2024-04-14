@@ -3,3 +3,17 @@ syntax = "proto3";
 option go_package="github.com/arandich/marketplace-proto/api/proto/types";
 
 package marketplace;
+
+import "proto/enums/id-enums.proto";
+
+message User {
+  string user_id = 1;
+  int64 balance = 2;
+}
+
+message Hold {
+  int64 hold_id = 1;
+  int64 amount = 2;
+  string user_id = 3;
+  HoldStatus status = 4;
+}

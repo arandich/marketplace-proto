@@ -20,9 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	IdService_Auth_FullMethodName     = "/marketplace.IdService/Auth"
-	IdService_InitHold_FullMethodName = "/marketplace.IdService/InitHold"
-	IdService_GetUser_FullMethodName  = "/marketplace.IdService/GetUser"
+	IdService_Auth_FullMethodName         = "/marketplace.IdService/Auth"
+	IdService_InitHold_FullMethodName     = "/marketplace.IdService/InitHold"
+	IdService_GetUser_FullMethodName      = "/marketplace.IdService/GetUser"
+	IdService_RegisterUser_FullMethodName = "/marketplace.IdService/RegisterUser"
 )
 
 // IdServiceClient is the client API for IdService service.
@@ -35,6 +36,8 @@ type IdServiceClient interface {
 	InitHold(ctx context.Context, in *InitHoldRequest, opts ...grpc.CallOption) (*InitHoldResponse, error)
 	// GetUser
 	GetUser(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetUserResponse, error)
+	// Register user
+	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
 }
 
 type idServiceClient struct {
@@ -72,6 +75,15 @@ func (c *idServiceClient) GetUser(ctx context.Context, in *emptypb.Empty, opts .
 	return out, nil
 }
 
+func (c *idServiceClient) RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error) {
+	out := new(RegisterUserResponse)
+	err := c.cc.Invoke(ctx, IdService_RegisterUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IdServiceServer is the server API for IdService service.
 // All implementations must embed UnimplementedIdServiceServer
 // for forward compatibility
@@ -82,6 +94,8 @@ type IdServiceServer interface {
 	InitHold(context.Context, *InitHoldRequest) (*InitHoldResponse, error)
 	// GetUser
 	GetUser(context.Context, *emptypb.Empty) (*GetUserResponse, error)
+	// Register user
+	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
 	mustEmbedUnimplementedIdServiceServer()
 }
 
@@ -97,6 +111,9 @@ func (UnimplementedIdServiceServer) InitHold(context.Context, *InitHoldRequest) 
 }
 func (UnimplementedIdServiceServer) GetUser(context.Context, *emptypb.Empty) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedIdServiceServer) RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
 }
 func (UnimplementedIdServiceServer) mustEmbedUnimplementedIdServiceServer() {}
 
@@ -165,6 +182,24 @@ func _IdService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IdService_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IdServiceServer).RegisterUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IdService_RegisterUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IdServiceServer).RegisterUser(ctx, req.(*RegisterUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IdService_ServiceDesc is the grpc.ServiceDesc for IdService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -183,6 +218,10 @@ var IdService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUser",
 			Handler:    _IdService_GetUser_Handler,
+		},
+		{
+			MethodName: "RegisterUser",
+			Handler:    _IdService_RegisterUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
