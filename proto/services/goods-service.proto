@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/services";
+
+package marketplace;
+
+import "google/api/annotations.proto";
+import "proto/types/goods-types.proto";
+
+service GoodsService {
+  // GetGood returns a good by id
+  rpc GetGood(GetGoodRequest) returns (GetGoodResponse) {
+    option (google.api.http) = {
+      post: "/v1/goods/get"
+      body: "*"
+    };
+  };
+  // GetGoods returns a list of goods
+  rpc GetGoods(GetGoodsRequest) returns (GetGoodsResponse) {
+    option (google.api.http) = {
+      post: "/v1/goods/get-goods"
+      body: "*"
+    };
+  };
+  // AddGood adds a new good
+  rpc AddGood(AddGoodRequest) returns (AddGoodResponse) {
+    option (google.api.http) = {
+      post: "/v1/goods/add"
+      body: "*"
+    };
+  };
+}
+
+message GetGoodRequest {
+  string id = 1;
+}
+
+message GetGoodResponse {
+  Good good = 1;
+}
+
+message GetGoodsRequest {
+  repeated string id = 1;
+}
+
+message GetGoodsResponse {
+  repeated Good goods = 1;
+}
+
+message AddGoodRequest {
+  string user_id = 1;
+  string name = 2;
+  string description = 3;
+  int64 price = 4;
+  string image_url = 5;
+}
+
+message AddGoodResponse {
+  Good good = 1;
+}

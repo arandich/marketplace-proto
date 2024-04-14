@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/enums";
+
+package marketplace;
+
+enum OrderStatus {
+  CREATED = 0; // заказ создан
+  PAID = 1; // оплачен
+  CANCELED = 2; // отменен
+}

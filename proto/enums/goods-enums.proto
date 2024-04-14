@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/enums";
+
+package marketplace;
+
+enum GoodStatus {
+ ACTIVE = 0; // активен
+ INACTIVE = 1; // снят с продажи
+}

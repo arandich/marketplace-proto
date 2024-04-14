@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/types";
+
+package marketplace;
+
+import "proto/enums/goods-enums.proto";
+
+message Good {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  string description = 4;
+  int64 price = 5;
+  GoodStatus status = 6;
+  string image_url = 7;
+}
