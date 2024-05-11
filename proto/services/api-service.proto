@@ -24,7 +24,7 @@ service ApiService {
 }
 
 message SubmitOrderRequest {
-  int64 clientID = 1;
+  string clientID = 1;
   string actionID = 2;
   repeated int64 itemIDs = 3;
 }
