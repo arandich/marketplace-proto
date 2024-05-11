@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option go_package="github.com/arandich/marketplace-proto/api/proto/services";
+
+package marketplace;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service ApiService {
+  // SubmitOrder
+  rpc SubmitOrder(SubmitOrderRequest) returns (SubmitOrderResponse) {
+    option (google.api.http) = {
+      post: "/v1/api/submit-order"
+      body: "*"
+    };
+  };
+  // OrderInfo
+  rpc OrderInfo(OrderInfoRequest) returns (OrderInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/api/order-info"
+    };
+  };
+}
+
+message SubmitOrderRequest {
+  int64 clientID = 1;
+  string actionID = 2;
+  repeated int64 itemIDs = 3;
+}
+
+message SubmitOrderResponse {
+  string status = 1;
+}
+
+message OrderInfoRequest {
+  string externalID = 1;
+}
+
+message OrderInfoResponse {
+  string externalID = 1;
+  int64 orderID = 2;
+  string status = 3;
+}
