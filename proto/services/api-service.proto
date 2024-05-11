@@ -15,12 +15,6 @@ service ApiService {
       body: "*"
     };
   };
-  // OrderInfo
-  rpc OrderInfo(OrderInfoRequest) returns (OrderInfoResponse) {
-    option (google.api.http) = {
-      get: "/v1/api/order-info"
-    };
-  };
 }
 
 message SubmitOrderRequest {
@@ -31,14 +25,4 @@ message SubmitOrderRequest {
 
 message SubmitOrderResponse {
   string status = 1;
-}
-
-message OrderInfoRequest {
-  string externalID = 1;
-}
-
-message OrderInfoResponse {
-  string externalID = 1;
-  int64 orderID = 2;
-  string status = 3;
 }

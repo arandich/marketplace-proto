@@ -20,7 +20,6 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ApiService_SubmitOrder_FullMethodName = "/marketplace.ApiService/SubmitOrder"
-	ApiService_OrderInfo_FullMethodName   = "/marketplace.ApiService/OrderInfo"
 )
 
 // ApiServiceClient is the client API for ApiService service.
@@ -29,8 +28,6 @@ const (
 type ApiServiceClient interface {
 	// SubmitOrder
 	SubmitOrder(ctx context.Context, in *SubmitOrderRequest, opts ...grpc.CallOption) (*SubmitOrderResponse, error)
-	// OrderInfo
-	OrderInfo(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error)
 }
 
 type apiServiceClient struct {
@@ -50,23 +47,12 @@ func (c *apiServiceClient) SubmitOrder(ctx context.Context, in *SubmitOrderReque
 	return out, nil
 }
 
-func (c *apiServiceClient) OrderInfo(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error) {
-	out := new(OrderInfoResponse)
-	err := c.cc.Invoke(ctx, ApiService_OrderInfo_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ApiServiceServer is the server API for ApiService service.
 // All implementations must embed UnimplementedApiServiceServer
 // for forward compatibility
 type ApiServiceServer interface {
 	// SubmitOrder
 	SubmitOrder(context.Context, *SubmitOrderRequest) (*SubmitOrderResponse, error)
-	// OrderInfo
-	OrderInfo(context.Context, *OrderInfoRequest) (*OrderInfoResponse, error)
 	mustEmbedUnimplementedApiServiceServer()
 }
 
@@ -76,9 +62,6 @@ type UnimplementedApiServiceServer struct {
 
 func (UnimplementedApiServiceServer) SubmitOrder(context.Context, *SubmitOrderRequest) (*SubmitOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitOrder not implemented")
-}
-func (UnimplementedApiServiceServer) OrderInfo(context.Context, *OrderInfoRequest) (*OrderInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OrderInfo not implemented")
 }
 func (UnimplementedApiServiceServer) mustEmbedUnimplementedApiServiceServer() {}
 
@@ -111,24 +94,6 @@ func _ApiService_SubmitOrder_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiService_OrderInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderInfoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiServiceServer).OrderInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ApiService_OrderInfo_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServiceServer).OrderInfo(ctx, req.(*OrderInfoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // ApiService_ServiceDesc is the grpc.ServiceDesc for ApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,10 +104,6 @@ var ApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitOrder",
 			Handler:    _ApiService_SubmitOrder_Handler,
-		},
-		{
-			MethodName: "OrderInfo",
-			Handler:    _ApiService_OrderInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
